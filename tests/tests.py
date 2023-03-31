@@ -4,16 +4,26 @@ import unittest
 
 from subprocess import run
 from shutil import copy
-from os import remove
+import os
 from filecmp import cmp
 from pathlib import Path
+
+import errno
 
 from PDFS import pdfs
 
 # run with 'python -m PDFS.tests.tests'
 
+
 test_folder = Path(__file__).resolve().parent
 script = test_folder.parent.joinpath("pdfs.py")
+
+def remove(filename):
+	try:
+		os.remove(filename)
+	except OSError as e:
+		if e.errno != errno.ENOENT:  # errno.ENOENT = no such file or directory
+			raise  # re-raise exception if a different error occurred
 
 
 class Join(unittest.TestCase):
@@ -122,7 +132,7 @@ class JoinScript(unittest.TestCase):
 	def tearDown(self):
 		remove(self.output)
 
-	def test_join_jpgs(self):
+	def test_join_pdfs(self):
 		run([script, "join", self.output, self.pdf1, self.pdf2])
 		self.assertTrue(cmp(self.output, self.ref, shallow=False))
 		
@@ -157,24 +167,23 @@ class RotateScript(unittest.TestCase):
 		run([script, "rotate", self.output, "0", "--270"])
 		self.assertTrue(cmp(self.output, self.ref270, shallow=False))
 
-"""
-class JoinJPG(unittest.TestCase):
+
+class JoinJPGScript(unittest.TestCase):
 	def setUp(self):
-		pass
+		self.output = test_folder.joinpath("dog_output.pdf")
+		self.ref = test_folder.joinpath("dog_jpg_joined_ref.pdf")
+		self.jpg1 = test_folder.joinpath("dog.jpg")
+		self.jpg2 = test_folder.joinpath("dog2.jpg")
 	
 	def tearDown(self):
-		pass
+		remove(self.output)
 
 	def test_join_jpgs(self):
-		run([script, "join", "dog_output.pdf", "dog.jpg", "dog2.jpg"])
-		self.assertTrue(cmp("dog_output.pdf", "dog_joined_ref.pdf"))
+		run([script, "join", self.output, self.jpg1, self.jpg2])
+		self.assertTrue(cmp(self.output, self.ref, shallow=False))
 
-"""
+
 
 
 if __name__ == "__main__":
 	unittest.main()
-	#output = test_folder.joinpath("dog_output.pdf")
-	#pdf1 = test_folder.joinpath("dog.pdf")
-	#ref01_270 = test_folder.joinpath("dog_both_rot_270_ref.pdf")
-	#print(cmp(output, pdf1))

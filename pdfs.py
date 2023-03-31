@@ -4,14 +4,17 @@
 	pdfs.py join <newfile> <files>...
 	pdfs.py rotate [--180 --270] <file> <pages>..."""
 
-from docopt import docopt
-import PyPDF2 as pdf
-
 from typing import IO
-from collections.abc import Iterable
+from collections.abc import Iterable, Container
 from os import PathLike
 
-Path = str | bytes | PathLike[str] | PathLike[bytes] | int
+from io import BytesIO
+
+from docopt import docopt
+import PyPDF2 as pdf
+import img2pdf
+
+PathType = str | bytes | PathLike[str] | PathLike[bytes] | int
 Reader_and_open = str | PathLike[str] | PathLike[bytes]
 
 __all__ = [
@@ -19,11 +22,27 @@ __all__ = [
 	"rotate"
 ]
 
-def join(newfile: Path, files: Iterable[str | IO | PathLike]) -> None:
-	""" """
+def _make_reader(file: str | IO | PathLike) -> pdf.PdfReader:
+	if not hasattr(file, "read"):
+		file = str(file)
+
+	try:
+		file = BytesIO(img2pdf.convert(file))
+	except img2pdf.ImageOpenError:
+		pass
+
+	return pdf.PdfReader(file)
+
+def join(newfile: PathType, files: Iterable[str | IO | PathLike]) -> None:
+	"""Join pdf, jpg, and png files together into a single pdf
+	
+	newfile: the filename or file descriptor to write the output to
+	
+	files: an iterable containing the filenames or file descriptors of the
+	files to be joined together"""
 
 	writer = pdf.PdfWriter()
-	readers = [pdf.PdfReader(fn) for fn in files]
+	readers = [_make_reader(fn) for fn in files]
 
 	for reader in readers:
 		for page in reader.pages:
@@ -32,8 +51,15 @@ def join(newfile: Path, files: Iterable[str | IO | PathLike]) -> None:
 	with open(newfile, "wb") as file:
 		writer.write(file)
 
-def rotate(filename: Reader_and_open, pages: Iterable[int | str], angle: int=90) -> None:
-	""" """
+def rotate(filename: Reader_and_open, pages: Container[int | str], angle: int=90) -> None:
+	"""Rotate individual pages of a pdf
+
+	filename: a string or a pathlike object representing the file to be modified
+	
+	pages: a container containing the page numbers to rotate
+	
+	angle: 90, 180, or 270, indicating how much to rotate the indicated pages
+	by clockwise"""
 
 	writer = pdf.PdfWriter()
 	reader = pdf.PdfReader(filename)
