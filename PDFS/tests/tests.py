@@ -31,7 +31,7 @@ class Join(unittest.TestCase):
 	def setUp(self):
 		self.output = test_folder.joinpath("dog_output.pdf")
 		self.ref = test_folder.joinpath("dog_joined_ref.pdf")
-		self.pdf1 = test_folder.joinpath("dog.pdf")
+		self.pdf1 = test_folder.joinpath("dog1.pdf")
 		self.pdf2 = test_folder.joinpath("dog2.pdf")
 
 	def tearDown(self):
@@ -57,7 +57,7 @@ class Rotate(unittest.TestCase):
 		self.ref90 = test_folder.joinpath("dog_rot_90_ref.pdf")
 		self.ref180 = test_folder.joinpath("dog_rot_180_ref.pdf")
 		self.ref270 = test_folder.joinpath("dog_rot_270_ref.pdf")
-		self.pdf1 = test_folder.joinpath("dog.pdf")
+		self.pdf1 = test_folder.joinpath("dog1.pdf")
 
 		copy(self.pdf1, self.output)
 
@@ -126,7 +126,7 @@ class JoinScript(unittest.TestCase):
 	def setUp(self):
 		self.output = test_folder.joinpath("dog_output.pdf")
 		self.ref = test_folder.joinpath("dog_joined_ref.pdf")
-		self.pdf1 = test_folder.joinpath("dog.pdf")
+		self.pdf1 = test_folder.joinpath("dog1.pdf")
 		self.pdf2 = test_folder.joinpath("dog2.pdf")
 
 	def tearDown(self):
@@ -143,7 +143,7 @@ class RotateScript(unittest.TestCase):
 		self.ref90 = test_folder.joinpath("dog_rot_90_ref.pdf")
 		self.ref180 = test_folder.joinpath("dog_rot_180_ref.pdf")
 		self.ref270 = test_folder.joinpath("dog_rot_270_ref.pdf")
-		self.pdf1 = test_folder.joinpath("dog.pdf")
+		self.pdf1 = test_folder.joinpath("dog1.pdf")
 
 		copy(self.pdf1, self.output)
 
@@ -171,7 +171,7 @@ class JoinJPGScript(unittest.TestCase):
 	def setUp(self):
 		self.output = test_folder.joinpath("dog_output.pdf")
 		self.ref = test_folder.joinpath("dog_jpg_joined_ref.pdf")
-		self.jpg1 = test_folder.joinpath("dog.jpg")
+		self.jpg1 = test_folder.joinpath("dog1.jpg")
 		self.jpg2 = test_folder.joinpath("dog2.jpg")
 
 	def tearDown(self):
@@ -186,7 +186,7 @@ class JoinPNGScript(unittest.TestCase):
 	def setUp(self):
 		self.output = test_folder.joinpath("dog_output.pdf")
 		self.ref = test_folder.joinpath("dog_png_joined_ref.pdf")
-		self.png1 = test_folder.joinpath("dog.png")
+		self.png1 = test_folder.joinpath("dog1.png")
 		self.png2 = test_folder.joinpath("dog2.png")
 
 	def tearDown(self):
