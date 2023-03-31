@@ -185,18 +185,18 @@ class JoinJPGScript(unittest.TestCase):
 class JoinPNGScript(unittest.TestCase):
 	def setUp(self):
 		self.output = test_folder.joinpath("dog_output.pdf")
-		self.ref = test_folder.joinpath("dog_jpg_joined_ref.pdf")
+		self.ref = test_folder.joinpath("dog_png_joined_ref.pdf")
 		self.png1 = test_folder.joinpath("dog.png")
 		self.png2 = test_folder.joinpath("dog2.png")
 
 	def tearDown(self):
 		remove(self.output)
 
-	@unittest.skip("dont have png files yet")
 	def test_join_pngs(self):
 		run([script, "join", self.output, self.png1, self.png2])
 		self.assertTrue(cmp(self.output, self.ref, shallow=False))
 
+#os.environ["COVERAGE_PROCESS_START"] = "/mnt/c/users/Max/Documents/python/PDFS/.coveragerc"
 
 if __name__ == "__main__":
 	unittest.main()

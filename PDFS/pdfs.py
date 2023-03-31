@@ -87,7 +87,7 @@ doc = """Usage:
 	pdfs.py rotate <file> <pages>... [--90 --180 --270]
 """
 
-if __name__ == "__main__":
+def main():
 	args = docopt(doc)
 
 	if args["join"]:
@@ -99,3 +99,7 @@ if __name__ == "__main__":
 		if args["--270"]:
 			angle = 270
 		rotate(args["<file>"], args["<pages>"], angle)
+
+
+if __name__ == "__main__":
+	main()
