@@ -2,7 +2,11 @@
 
 """Usage:
 	pdfs.py join <newfile> <files>...
-	pdfs.py rotate [--180 --270] <file> <pages>..."""
+	pdfs.py rotate <file> <pages>... [--180 --270]
+
+Join jpgs, pngs, and pdfs into singular pdf files, then rotate individual
+pages.
+"""
 
 from typing import IO
 from collections.abc import Iterable, Container
