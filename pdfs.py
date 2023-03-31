@@ -11,8 +11,8 @@ from os import PathLike
 from io import BytesIO
 
 from docopt import docopt
-import PyPDF2 as pdf
-import img2pdf
+import PyPDF2 as pdf  # type: ignore
+import img2pdf        # type: ignore
 
 PathType = str | bytes | PathLike[str] | PathLike[bytes] | int
 Reader_and_open = str | PathLike[str] | PathLike[bytes]
@@ -21,6 +21,7 @@ __all__ = [
 	"join",
 	"rotate"
 ]
+
 
 def _make_reader(file: str | IO | PathLike) -> pdf.PdfReader:
 	if not hasattr(file, "read"):
@@ -33,11 +34,12 @@ def _make_reader(file: str | IO | PathLike) -> pdf.PdfReader:
 
 	return pdf.PdfReader(file)
 
+
 def join(newfile: PathType, files: Iterable[str | IO | PathLike]) -> None:
 	"""Join pdf, jpg, and png files together into a single pdf
-	
+
 	newfile: the filename or file descriptor to write the output to
-	
+
 	files: an iterable containing the filenames or file descriptors of the
 	files to be joined together"""
 
@@ -51,13 +53,16 @@ def join(newfile: PathType, files: Iterable[str | IO | PathLike]) -> None:
 	with open(newfile, "wb") as file:
 		writer.write(file)
 
-def rotate(filename: Reader_and_open, pages: Container[int | str], angle: int=90) -> None:
+
+def rotate(
+	filename: Reader_and_open, pages: Container[int | str], angle: int = 90
+) -> None:
 	"""Rotate individual pages of a pdf
 
 	filename: a string or a pathlike object representing the file to be modified
-	
+
 	pages: a container containing the page numbers to rotate
-	
+
 	angle: 90, 180, or 270, indicating how much to rotate the indicated pages
 	by clockwise"""
 
